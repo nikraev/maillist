@@ -1,13 +1,16 @@
 package ru.dtln.servicedesk.mail;
 
 import java.io.*;
-import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.sql.*;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Servlet implementation class Correspondence
@@ -29,17 +32,24 @@ public class Correspondence extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-				
-		String url = "jdbc:jtds:sqlserver://10.4.3.106:1433/RemedyDB;integratedSecurity=false";
-		try {
-		    Class.forName("net.sourceforge.jtds.jdbc.Driver");
-		    Connection conn = DriverManager.getConnection (url, "ARAdmin","AR#Admin#");
-		    out.println("Connection successful");     
-		} catch (Exception e) {
-			 out.println("Cannot connect to database server");
-		    e.printStackTrace();
+		
+		ConnectRemedyDb data = new ConnectRemedyDb("INC000000059485");
+		System.out.println("3");
+		List<HashMap<String,String>> message = data.getMessages();
+		
+		if(message!=null)
+		{
+		out.println("<html>");
+		out.println("<body>");
+		System.out.println("4");
+		out.println(message.get(0).get("subject"));
+		out.println("</body>");
+		out.println("</html>");
 		}
+		else {out.println("Can't get message");}
+		
 	}
 
 	/**
