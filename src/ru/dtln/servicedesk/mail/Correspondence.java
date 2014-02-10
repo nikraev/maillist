@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Servlet implementation class Correspondence
  */
-@WebServlet("/correspondence")
+@WebServlet("/correspondence/")
 public class Correspondence extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -32,24 +32,36 @@ public class Correspondence extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		String incidentNumber;
+		String temp;
+		List<String> listMessage = null;
+		ConnectRemedyDb data;
+		
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		
-		ConnectRemedyDb data = new ConnectRemedyDb("INC000000059485");
-		System.out.println("3");
-		List<HashMap<String,String>> message = data.getMessages();
 		
-		if(message!=null)
-		{
-		out.println("<html>");
-		out.println("<body>");
-		System.out.println("4");
-		out.println(message.get(0).get("subject"));
-		out.println("</body>");
-		out.println("</html>");
-		}
-		else {out.println("Can't get message");}
+		if((incidentNumber = request.getParameter("incident")) !=null)
+			{
+				data = new ConnectRemedyDb(incidentNumber);
+				listMessage = data.getTest();
+				
+				while ()
+				out.println(temp);
+				
+			}
+		else
+			{
+				out.println("<html>");
+				out.println("<body>");
+				out.println("Переписки данному инциденту не зарегистрировано");
+				out.println("</body>");
+				out.println("</html>");
+			}
+	
+		//List<HashMap<String,String>> message = data.getMessages();
 		
+
 	}
 
 	/**
