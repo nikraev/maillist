@@ -56,72 +56,32 @@ public class ConnectRemedyDb {
              e.printStackTrace();
         }
     }
+      
     
-    
-    public List<HashMap<String,String>> getMessages()
-    {
-    		
-    	List<HashMap<String,String>> mList = new ArrayList<HashMap<String,String>>();
-    	HashMap<String,String> mForm = new HashMap<String, String>();
-    	
- //   	Connection con = this.getConnection();
-    	
-    	if(con!=null)
-    		{
-    			try{
-    				Connection con = this.getConnection();
-    				Statement st = con.createStatement();
-    				String sQuery = "SELECT Description as qsubject,Detailed_Description as qmessageBody FROM HPD_WorkLog WHERE Incident_Number=\'" + iNumber + "\'";
-    				
-    				ResultSet resSet = st.executeQuery(sQuery);
-    				
-    				for( int i = 0; resSet.next() ;  )
-    				{
-    					//if(i%4 == 0) { i++; }
-    					//mForm.put("from", resSet.getString("From"));
-    					//mForm.put("to", resSet.getString("From"));
-    					if(i%2 == 0) { i++; }
-    					
-    					mForm.put("subject", resSet.getString("qsubject"));
-    					mForm.put("messageBody", resSet.getString("qmessageBody"));
-    					
-    					System.out.println("1");
-    					System.out.println(mForm.get("subject"));
-    					
-    					mList.add(i, mForm);
-    					//System.out.println(mList.get(0).get("subject"));
-    				}
-    			
-    			this.closeConnection(con);	
-    			return mList;
-    			}
-    			catch(SQLException e)
-    			{
-    				 e.printStackTrace();
-    			}
-    		}
-		return mList;
-    }
-    
-//test
-    public List<String> getTest()
+    public List<String> getMessages()
     {
     	Connection con;
     	List<String> messages = new ArrayList<String>();
-    	
+    	    	
     	if((con = this.getConnection())!=null)
     		{
     			try{
+    				
     				Statement st = con.createStatement();
-    				String sQuery = "SELECT Description as qsubject,Detailed_Description as qmessage FROM HPD_WorkLog WHERE Incident_Number=\'" + iNumber + "\'";    				
+    				
+    				String sQuery = 
+    				"SELECT ToEmailAddress as qto, CCEmailAddress as qcc, Description as qsubject, Detailed_Description as qmessage, dateadd(s,Work_Log_Submit_Date+14400,'19700101') as qdate FROM HPD_WorkLog WHERE Incident_Number=\'" + iNumber + "\'" + "AND Work_Log_Type=16000";
+    				
     				ResultSet resSet = st.executeQuery(sQuery);
     				
     				
     				while ( resSet.next() )
-    				{
+    				{	
+    					messages.add(resSet.getString("qto"));
+    					messages.add(resSet.getString("qcc"));
     					messages.add(resSet.getString("qsubject"));
+    					messages.add(resSet.getString("qdate"));
     					messages.add(resSet.getString("qmessage"));
-    					
     				}
     		
     			}
@@ -135,6 +95,6 @@ public class ConnectRemedyDb {
     	return messages;
     	
     }
-//test
+
     
 }
