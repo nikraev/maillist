@@ -64,25 +64,8 @@ public class Correspondence extends HttpServlet {
 									  out.println("<br>" + listMessage.get(i) + "<br>" );
 									  out.println("-------------------------------------------------<br>");
 									 }
-						/*
-						out.println("i: " + i + "<br>" );
-						out.println("From: " + listMessage.get(i) + "<br>" );
-						 
-						out.println("i: " + i + "<br>" );
-						
-						out.println("To: " + listMessage.get(i++) + "<br>" );
-						out.println("i: " + i + "<br>" );
-						out.println("Subject: " + listMessage.get(i++) + "<br>" );
-						out.println("i: " + i + "<br>" );
-						out.println("Date: " + listMessage.get(i++) + "<br>" + "<br>" );
-						out.println("i: " + i + "<br>" );
-						out.println(listMessage.get(i) + "<br>" );
-						out.println("i: " + i + "<br>" );
-						*/
-						
 					}
-				
-				
+
 			}
 		else
 			{

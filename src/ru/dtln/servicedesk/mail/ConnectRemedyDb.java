@@ -3,11 +3,16 @@ package ru.dtln.servicedesk.mail;
 import java.io.PrintWriter;
 import java.sql.*;
 import java.util.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 
 public class ConnectRemedyDb {
 	
 	private Connection  con = null;
     //private final String url = "jdbc:microsoft:sqlserver://";
+/*	
 	private final String url = "jdbc:sqlserver://";
     private final String serverName= "10.4.3.58";
     private final String portNumber = "1433";
@@ -16,16 +21,60 @@ public class ConnectRemedyDb {
     private final String password = "AR#Admin#";
     private final String selectMethod = "cursor";
     private String iNumber;
-    
+*/
+	private final String url = "jdbc:sqlserver://";
+    private static String serverName;
+    private static String portNumber;
+    private static String databaseName;
+    private static String userName;
+    private static String password;
+    private final String selectMethod = "cursor";
+    private String iNumber;
+
     //Конструктор
     public ConnectRemedyDb()
     {
-    	
+    	this.getProphets();
     }
     //Конструктор
     public ConnectRemedyDb(String incidentNumber)
     {
     	this.iNumber = incidentNumber;
+    	this.getProphets();
+    }
+    
+    private void getProphets()
+    {
+    	Properties prop = new Properties();
+    	InputStream instream = null;
+    	
+    	try{
+    		String filename = "config.properties";
+    		instream = ConnectRemedyDb.class.getClassLoader().getResourceAsStream(filename);
+    		    		 
+    		// load a properties file
+    		prop.load(instream);
+     
+    		serverName = prop.getProperty("server");
+    		portNumber = prop.getProperty("port");
+    		databaseName = prop.getProperty("database");
+    		userName = prop.getProperty("dbuser");
+    		password = prop.getProperty("dbpassword");
+    		
+    		
+    	}catch(IOException e)
+    	{
+    		e.getStackTrace();
+    	}finally{
+        	if(instream!=null)
+        	{
+        		try {
+        			instream.close();
+        		} catch (IOException e) {
+        			e.printStackTrace();
+        		}
+        	}
+        }
     }
     
     //Формирование url подключения
